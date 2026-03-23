@@ -1,0 +1,137 @@
+.signin-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.signin-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9; /* Subtle contrast from the white navbar */
+  background: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.25)), 
+              url('../assets/SDSU_Library.jpg');
+  background-size: cover;
+}
+
+/* Header */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.logo { 
+  align-items: center;
+  color: var(--black);
+}
+
+.logo span {
+  display: inline-block;
+  letter-spacing: -1px;
+  font-weight: 900;
+  font-size: 1.5rem;
+  font-family: "Times New Roman", Times, serif;
+  transform: translateY(-1rem);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-prof-btn {
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-btn.primary {
+  color: var(--red);
+  border: 2px solid var(--red);
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+}
+
+.nav-btn.primary:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
+.signin-form {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.signin-form h2 {
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.signin-btn {
+  width: 100%;
+  background-color: var(--red);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 1rem;
+  transition: background 0.3s;
+}
+
+.signin-btn:hover {
+  background-color: var(--dark-red);
+}
+
+.form-footer {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.form-footer span {
+  color: var(--red);
+  cursor: pointer;
+  font-weight: 600;
+}
