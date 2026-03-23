@@ -1,0 +1,115 @@
+:root {
+  --white: #ffffff;
+  --red: #e63946;
+  --dark-red: #c1121f;
+  --text-main: #1a1a1a;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--white);
+  color: var(--text-main);
+}
+
+/* Header */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.logo { 
+  align-items: center;
+  color: var(--black);
+}
+
+.logo span {
+  display: inline-block;
+  letter-spacing: -1px;
+  font-weight: 900;
+  font-size: 1.5rem;
+  font-family: "Times New Roman", Times, serif;
+  transform: translateY(-1rem);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-prof-btn {
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-btn.primary {
+  color: var(--red);
+  border: 2px solid var(--red);
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+}
+
+.nav-btn.primary:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.25)), 
+              url('../assets/SDSU_HALL.jpg');
+  background-size: cover;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  margin: 0;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin: 1.5rem 0 2.5rem;
+  color: #666;
+}
+
+.cta-btn {
+  background-color: var(--red);
+  color: var(--white);
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cta-btn:hover {
+  background-color: var(--dark-red);
+}
+
+.prof-icon {
+    height: 40px;
+    width: auto;
+}
