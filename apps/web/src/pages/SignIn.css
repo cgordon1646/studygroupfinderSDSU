@@ -10,8 +10,9 @@
   align-items: center;
   justify-content: center;
   background-color: #f9f9f9; /* Subtle contrast from the white navbar */
-  background: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.25)), 
-              url('../assets/SDSU_Library.jpg');
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.25)),
+    url("../assets/SDSU_Library.jpg");
   background-size: cover;
 }
 
@@ -24,7 +25,7 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.logo { 
+.logo {
   align-items: center;
   color: var(--black);
 }

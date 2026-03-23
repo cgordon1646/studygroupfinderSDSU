@@ -1,0 +1,11 @@
+html,
+body {
+  overscroll-behavior: None;
+}
+
+:root {
+  --white: #ffffff;
+  --red: #e63946;
+  --dark-red: #c1121f;
+  --text-main: #1a1a1a;
+}
