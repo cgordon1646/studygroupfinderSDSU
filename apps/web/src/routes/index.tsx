@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Landing from "../pages/Landing";
 import SignIn from "../pages/SignIn"
+import ClassBrowser from "../pages/ClassBrowser";
 import Error from "../pages/Error";
 
 export const router = createBrowserRouter([
@@ -9,7 +10,8 @@ export const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <Landing /> },
-      { path: "signin", element: <SignIn /> }
+      { path: "signin", element: <SignIn /> },
+      { path: "classes", element: <ClassBrowser /> }
     ],
   },
 ]);
