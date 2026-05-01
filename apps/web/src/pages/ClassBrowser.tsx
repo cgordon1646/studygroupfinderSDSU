@@ -3,6 +3,12 @@ import "./Global.css";
 import sdsuLogo from "../assets/SDSULogo.jpg";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import {
+  clearStoredAuth,
+  reconcileExpiredAuth,
+  syncProfileIfAuthenticated,
+  tokenIsAuthenticated,
+} from "../auth/session";
 
 interface StudyGroup {
   id: string;
@@ -33,20 +39,31 @@ function ClassBrowser() {
   const [userEmail, setUserEmail] = useState("");
   const [userMajor, setUserMajor] = useState("");
   const [userYear, setUserYear] = useState("");
+  const [userRedId, setUserRedId] = useState("");
   const [showDashboard, setShowDashboard] = useState(false);
   const [joinedGroups, setJoinedGroups] = useState<any[]>([]);
 
   useEffect(() => {
-    // Check if user is authenticated
-    const authenticated = localStorage.getItem("isAuthenticated");
-    setIsSignedIn(authenticated === "true");
-    
-    if (authenticated === "true") {
-      setUserName(localStorage.getItem("userName") || "");
-      setUserEmail(localStorage.getItem("userEmail") || "");
-      setUserMajor(localStorage.getItem("userMajor") || "");
-      setUserYear(localStorage.getItem("userYear") || "");
-    }
+    const load = () => {
+      reconcileExpiredAuth();
+      const signedIn = tokenIsAuthenticated();
+      setIsSignedIn(signedIn);
+      if (signedIn) {
+        setUserName(localStorage.getItem("userName") || "");
+        setUserEmail(localStorage.getItem("userEmail") || "");
+        setUserMajor(localStorage.getItem("userMajor") || "");
+        setUserYear(localStorage.getItem("userYear") || "");
+        setUserRedId(localStorage.getItem("userRedId") || "");
+      } else {
+        setUserName("");
+        setUserEmail("");
+        setUserMajor("");
+        setUserYear("");
+        setUserRedId("");
+      }
+    };
+    load();
+    void syncProfileIfAuthenticated().then(load);
   }, []);
 
   const handleProfileClick = () => {
@@ -69,11 +86,7 @@ function ClassBrowser() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userMajor");
-    localStorage.removeItem("userYear");
+    clearStoredAuth();
     setIsSignedIn(false);
     setShowProfile(false);
     navigate("/");
@@ -571,6 +584,11 @@ function ClassBrowser() {
                   <p style={{ margin: "5px 0" }}>
                     <strong>Email:</strong> {userEmail}
                   </p>
+                  {userRedId && (
+                    <p style={{ margin: "5px 0" }}>
+                      <strong>Red ID:</strong> {userRedId}
+                    </p>
+                  )}
                   <p style={{ margin: "5px 0" }}>
                     <strong>Major:</strong> {userMajor}
                   </p>

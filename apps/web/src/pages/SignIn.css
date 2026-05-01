@@ -131,8 +131,18 @@
   color: #666;
 }
 
-.form-footer span {
+.form-footer-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
   color: var(--red);
   cursor: pointer;
   font-weight: 600;
+  text-decoration: underline;
+}
+
+.form-footer-link:hover {
+  color: var(--dark-red);
 }
