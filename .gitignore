@@ -34,3 +34,11 @@ compile_commands.json
 
 # --- Dependency Managers ---
 vcpkg/
+
+# --- Python API ---
+**/apps/api/.venv/
+**/apps/api/venv/
+**/apps/api/__pycache__/
+**/apps/api/**/__pycache__/
+**/apps/api/data/
+**/apps/api/.env

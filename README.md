@@ -22,3 +22,33 @@ The goal of this project is to improve campus safety by giving students a fast, 
 In order to launch the app go to the root file and do 
 cmake -S . -B build
 cmake --build build
+
+---
+
+## Run the app
+
+Use **two terminals**. Needs **Python 3** and **Node.js**.
+
+**Terminal 1 — API**
+
+```powershell
+cd apps\api
+py -3 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+**Terminal 2 — web**
+
+```powershell
+cd apps\web
+npm install
+npm run dev
+```
+
+Open the URL Vite prints. Demo login: `test@sdsu.edu` / `test123`.
+
+**Production web build** (API on another host): `cd apps\web`, then set `VITE_API_BASE_URL` to your API URL and run `npm run build`.
+
+**CMake** (`cmake -S . -B build` then `cmake --build build`): optional; only builds `packages/core` C++, not the web app or API.

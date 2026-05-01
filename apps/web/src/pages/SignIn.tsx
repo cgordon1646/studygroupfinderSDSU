@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import "./Global.css";
 import sdsuLogo from "../assets/SDSULogo.jpg";
+import { signIn } from "../auth/session";
 
 function SignIn() {
   const router = useNavigate();
@@ -10,21 +11,24 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
-    // Test account validation
-    if (email === "test@sdsu.edu" && password === "test123") {
-      // Store authentication in localStorage
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userName", "Test User");
-      localStorage.setItem("userMajor", "Computer Science");
-      localStorage.setItem("userYear", "Junior");
+    try {
+      await signIn(email, password);
       router("/classes");
-    } else {
-      setErrorMessage("Invalid email or password. Please try test@sdsu.edu / test123");
+    } catch (err) {
+      const raw =
+        err instanceof Error
+          ? err.message
+          : "Sign in failed. Please try again.";
+      setErrorMessage(
+        raw.includes("Failed to fetch")
+          ? "Cannot reach the server. Start the API (see apps/api/README) and try again."
+          : raw ||
+              "Invalid email or password. Try the demo account test@sdsu.edu / test123.",
+      );
     }
   };
 
@@ -44,8 +48,12 @@ function SignIn() {
           <span>Study Group Finder</span>
         </div>
         <nav className="nav-links">
-          <button className="nav-btn">Classes</button>
-          <button className="nav-btn">Dashboard</button>
+          <button type="button" className="nav-btn" onClick={() => router("/classes")}>
+            Classes
+          </button>
+          <button type="button" className="nav-btn" onClick={() => router("/signup")}>
+            Create Account
+          </button>
           <button className="nav-btn primary" onClick={routeSignin}>
             SIGN IN
           </button>
@@ -87,7 +95,13 @@ function SignIn() {
           </button>
           <p className="form-footer">
             Don't have an account?{" "}
-            <span onClick={() => router("/")}>Create Account</span>
+            <button
+              type="button"
+              className="form-footer-link"
+              onClick={() => router("/signup")}
+            >
+              Create Account
+            </button>
           </p>
         </form>
       </main>

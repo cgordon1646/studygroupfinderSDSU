@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Landing from "../pages/Landing";
-import SignIn from "../pages/SignIn"
+import SignIn from "../pages/SignIn";
+import CreateAccount from "../pages/CreateAccount";
 import ClassBrowser from "../pages/ClassBrowser";
 import Error from "../pages/Error";
 
@@ -11,6 +12,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Landing /> },
       { path: "signin", element: <SignIn /> },
+      { path: "signup", element: <CreateAccount /> },
       { path: "classes", element: <ClassBrowser /> }
     ],
   },

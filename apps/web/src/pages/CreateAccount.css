@@ -1,0 +1,22 @@
+@import "./SignIn.css";
+
+.signin-form.signup-form {
+  max-width: min(460px, calc(100vw - 2rem));
+}
+
+.signup-names-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 520px) {
+  .signup-names-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.signup-names-row .input-group {
+  margin-bottom: 0;
+}

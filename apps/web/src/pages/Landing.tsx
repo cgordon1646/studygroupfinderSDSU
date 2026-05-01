@@ -2,25 +2,84 @@ import "./Landing.css";
 import "./Global.css";
 import sdsuLogo from "../assets/SDSULogo.jpg";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import {
+  AUTH_TOKEN_KEY,
+  clearStoredAuth,
+  reconcileExpiredAuth,
+  syncProfileIfAuthenticated,
+  tokenIsAuthenticated,
+} from "../auth/session";
 
 function LandingPage() {
   const navigate = useNavigate();
   const [showDashboard, setShowDashboard] = useState(false);
   const [joinedGroups, setJoinedGroups] = useState<any[]>([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userMajor, setUserMajor] = useState("");
+  const [userYear, setUserYear] = useState("");
+  const [userRedId, setUserRedId] = useState("");
+
+  const refreshAuthFromStorage = useCallback(() => {
+    reconcileExpiredAuth();
+    const signedIn = tokenIsAuthenticated();
+    setIsSignedIn(signedIn);
+    if (signedIn) {
+      setUserName(localStorage.getItem("userName") || "");
+      setUserEmail(localStorage.getItem("userEmail") || "");
+      setUserMajor(localStorage.getItem("userMajor") || "");
+      setUserYear(localStorage.getItem("userYear") || "");
+      setUserRedId(localStorage.getItem("userRedId") || "");
+    } else {
+      setUserName("");
+      setUserEmail("");
+      setUserMajor("");
+      setUserYear("");
+      setUserRedId("");
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshAuthFromStorage();
+    void syncProfileIfAuthenticated().then(() => refreshAuthFromStorage());
+
+    const onStorage = (e: StorageEvent) => {
+      if (
+        e.key === AUTH_TOKEN_KEY ||
+        e.key === "isAuthenticated" ||
+        e.key === "userEmail" ||
+        e.key === "userName" ||
+        e.key === null
+      ) {
+        refreshAuthFromStorage();
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [refreshAuthFromStorage]);
 
   const routeSignin = () => {
     navigate("/signin");
   };
 
   const routeClassBrowser = () => {
-    // Clear authentication when navigating from home to browse classes
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userMajor");
-    localStorage.removeItem("userYear");
     navigate("/classes");
+  };
+
+  const handleProfileClick = () => {
+    if (isSignedIn) {
+      setShowProfile(!showProfile);
+    }
+  };
+
+  const handleLogout = () => {
+    clearStoredAuth();
+    setIsSignedIn(false);
+    setShowProfile(false);
+    refreshAuthFromStorage();
   };
 
   const handleDashboard = () => {
@@ -41,15 +100,71 @@ function LandingPage() {
             Browse Classes
           </button>
           <button className="nav-btn" onClick={handleDashboard}>Dashboard</button>
-          <button className="nav-btn primary" onClick={routeSignin}>
-            SIGN IN
-          </button>
-          <button
-            className="nav-prof-btn"
-            onClick={() => window.location.reload()}
-          >
-            <img src="/profileIcon.svg" alt="Profile" className="prof-icon" />
-          </button>
+          {!isSignedIn && (
+            <button className="nav-btn primary" onClick={routeSignin}>
+              SIGN IN
+            </button>
+          )}
+          <div style={{ position: "relative" }}>
+            <button
+              className="nav-prof-btn"
+              onClick={handleProfileClick}
+              style={{ cursor: isSignedIn ? "pointer" : "default" }}
+            >
+              <img src="/profileIcon.svg" alt="Profile" className="prof-icon" />
+            </button>
+            {isSignedIn && showProfile && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  right: 0,
+                  background: "white",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                  padding: "20px",
+                  minWidth: "250px",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                  zIndex: 1000,
+                  marginTop: "10px",
+                }}
+              >
+                <h3 style={{ margin: "0 0 15px 0", color: "#333" }}>{userName}</h3>
+                <div style={{ marginBottom: "10px", fontSize: "0.9rem", color: "#666" }}>
+                  <p style={{ margin: "5px 0" }}>
+                    <strong>Email:</strong> {userEmail}
+                  </p>
+                  {userRedId && (
+                    <p style={{ margin: "5px 0" }}>
+                      <strong>Red ID:</strong> {userRedId}
+                    </p>
+                  )}
+                  <p style={{ margin: "5px 0" }}>
+                    <strong>Major:</strong> {userMajor}
+                  </p>
+                  <p style={{ margin: "5px 0" }}>
+                    <strong>Year:</strong> {userYear}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    background: "#ce1141",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </nav>
       </header>
 
