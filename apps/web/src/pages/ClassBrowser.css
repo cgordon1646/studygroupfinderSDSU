@@ -1,3 +1,5 @@
+@import "../styles/site-header-red.css";
+
 .class-browser-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #ce1141 0%, #1a1a1a 100%);
@@ -147,6 +149,17 @@
   padding-left: 30px;
 }
 
+.course-item--selected {
+  background: #ffe8f0;
+  color: #ce1141;
+  font-weight: 600;
+  padding-left: 30px;
+}
+
+.course-item--selected:hover {
+  padding-left: 30px;
+}
+
 .groups-section {
   background: white;
   padding: 40px;
@@ -268,6 +281,10 @@
 .create-btn:hover {
   background: #8b0a2f;
   transform: scale(1.05);
+}
+
+.create-btn.create-btn--muted {
+  opacity: 0.92;
 }
 
 @media (max-width: 768px) {
