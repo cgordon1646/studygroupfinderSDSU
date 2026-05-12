@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import "./Global.css";
 import sdsuLogo from "../assets/SDSULogo.jpg";
 import { signIn } from "../auth/session";
 
+function safeRedirectPath(raw: string | undefined): string {
+  const s = raw?.trim();
+  if (!s || !s.startsWith("/") || s.startsWith("//")) return "/classes";
+  return s;
+}
+
 function SignIn() {
   const router = useNavigate();
+  const location = useLocation();
+  const redirectTo = safeRedirectPath(
+    (location.state as { from?: string } | null)?.from,
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,7 +27,7 @@ function SignIn() {
 
     try {
       await signIn(email, password);
-      router("/classes");
+      router(redirectTo, { replace: true });
     } catch (err) {
       const raw =
         err instanceof Error
@@ -69,7 +79,11 @@ function SignIn() {
       <main className="signin-content">
         <form className="signin-form" onSubmit={handleSignIn}>
           <h2>Sign In</h2>
-          {errorMessage && <p style={{ color: "red", fontSize: "0.9rem", marginBottom: "1rem" }}>{errorMessage}</p>}
+          {errorMessage ? (
+            <p className="form-message--error" role="alert">
+              {errorMessage}
+            </p>
+          ) : null}
           <div className="input-group">
             <label htmlFor="email">Email</label>
             <input

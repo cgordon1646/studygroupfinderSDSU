@@ -1,6 +1,6 @@
 html,
 body {
-  overscroll-behavior: None;
+  overscroll-behavior: none;
 }
 
 :root {
@@ -8,4 +8,21 @@ body {
   --red: #e63946;
   --dark-red: #c1121f;
   --text-main: #1a1a1a;
+}
+
+.form-message--error {
+  color: #b00020;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.65rem;
+  background: #ffebee;
+  border-radius: 6px;
+  border: 1px solid #ffcdd2;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #ce1141;
+  outline-offset: 2px;
 }

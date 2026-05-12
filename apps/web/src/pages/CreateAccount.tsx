@@ -118,11 +118,11 @@ function CreateAccount() {
       <main className="signin-content">
         <form className="signin-form signup-form" onSubmit={handleSubmit}>
           <h2>Create Account</h2>
-          {errorMessage && (
-            <p style={{ color: "red", fontSize: "0.9rem", marginBottom: "1rem" }}>
+          {errorMessage ? (
+            <p className="form-message--error" role="alert">
               {errorMessage}
             </p>
-          )}
+          ) : null}
 
           <div className="signup-names-row">
             <div className="input-group">
