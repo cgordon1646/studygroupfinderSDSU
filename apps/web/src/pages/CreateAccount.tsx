@@ -8,6 +8,7 @@ import { normalizeAccountEmail, signUp } from "../auth/session";
 const SDSU_EMAIL_RE =
   /^[a-zA-Z0-9._%+-]+@sdsu\.edu$/i;
 const RED_ID_RE = /^\d{9}$/;
+const GRAD_YEAR_RE = /^\d{4}$/;
 const PASSWORD_MIN_LEN = 8;
 
 function validateSdsuEmail(raw: string): string | null {
@@ -20,10 +21,13 @@ function validateSdsuEmail(raw: string): string | null {
 
 function CreateAccount() {
   const navigate = useNavigate();
+  const currentYear = new Date().getFullYear();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [redId, setRedId] = useState("");
+  const [major, setMajor] = useState("");
+  const [gradYear, setGradYear] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -54,6 +58,18 @@ function CreateAccount() {
       return;
     }
 
+    const majorValue = major.trim();
+    if (!majorValue) {
+      setErrorMessage("Please enter your major.");
+      return;
+    }
+
+    const gradYearValue = gradYear.trim();
+    if (!GRAD_YEAR_RE.test(gradYearValue)) {
+      setErrorMessage("Graduation year must be a 4-digit year.");
+      return;
+    }
+
     if (password.length < PASSWORD_MIN_LEN) {
       setErrorMessage(`Password must be at least ${PASSWORD_MIN_LEN} characters.`);
       return;
@@ -71,6 +87,8 @@ function CreateAccount() {
         first_name: fn,
         last_name: ln,
         red_id: ridDigits,
+        major: majorValue,
+        academic_year: gradYearValue,
       });
       navigate("/classes");
     } catch (err) {
@@ -174,6 +192,35 @@ function CreateAccount() {
               onChange={(e) => setRedId(e.target.value.replace(/\D/g, "").slice(0, 9))}
               required
             />
+          </div>
+
+          <div className="signup-details-row">
+            <div className="input-group">
+              <label htmlFor="major">Major</label>
+              <input
+                id="major"
+                autoComplete="organization-title"
+                placeholder="Computer Science"
+                value={major}
+                onChange={(e) => setMajor(e.target.value)}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <label htmlFor="gradYear">Graduation year</label>
+              <input
+                type="text"
+                id="gradYear"
+                inputMode="numeric"
+                autoComplete="off"
+                placeholder={String(currentYear + 2)}
+                pattern="\d{4}"
+                maxLength={4}
+                value={gradYear}
+                onChange={(e) => setGradYear(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                required
+              />
+            </div>
           </div>
 
           <div className="input-group">

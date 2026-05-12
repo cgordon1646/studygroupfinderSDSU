@@ -50,6 +50,8 @@ export async function registerRequest(payload: {
   first_name: string;
   last_name: string;
   red_id: string;
+  major: string;
+  academic_year: string;
 }): Promise<AuthTokenResponseSnake> {
   const res = await fetch(apiUrl("/api/auth/register"), {
     method: "POST",

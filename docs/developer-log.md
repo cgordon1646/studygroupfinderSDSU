@@ -130,21 +130,3 @@ This week reinforced **contract-first integration**: agreeing on JSON field casi
 ### Reflection
 
 We treated Week 3 as **paying down prototype debt**: same user-visible features, clearer boundaries for the next owner (API-backed study groups). Christos practiced **component extraction** under time pressure; Caleb practiced **technical writing** that survives a stranger cloning the repo before a demo.
-
----
-
-## Summary (for instructor)
-
-- **Handoff:** Earlier project phases are acknowledged but **not** detailed here; this log covers **our** work only after takeover.  
-- **Authors:** **Caleb Gordon** and **Christos Kotsiopulos** only.  
-- **Span:** **Weeks 1–3** after handoff, in order.  
-- **Next (backlog):** Model study groups in the API; persist memberships server-side; add automated tests when the schedule allows.
-
----
-
-## Maintenance checklist (optional)
-
-- [ ] Add **Week 4**, **Week 5**, … below as the term continues (or use **Weeks 4–6**-style blocks if your instructor prefers grouped spans).  
-- [ ] Keep **Caleb** / **Christos** / **Together** labels so ownership stays clear.  
-- [ ] Each week: tasks + challenges + reflection.  
-- [ ] Spell names consistently (**Christos Kotsiopulos**).

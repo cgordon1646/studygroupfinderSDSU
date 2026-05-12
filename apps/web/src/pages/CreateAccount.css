@@ -11,12 +11,21 @@
   margin-bottom: 1.5rem;
 }
 
+.signup-details-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 @media (max-width: 520px) {
-  .signup-names-row {
+  .signup-names-row,
+  .signup-details-row {
     grid-template-columns: 1fr;
   }
 }
 
-.signup-names-row .input-group {
+.signup-names-row .input-group,
+.signup-details-row .input-group {
   margin-bottom: 0;
 }

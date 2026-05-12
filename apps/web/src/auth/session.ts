@@ -77,6 +77,8 @@ export async function signUp(body: {
   first_name: string;
   last_name: string;
   red_id: string;
+  major: string;
+  academic_year: string;
 }): Promise<void> {
   const payload = await registerRequest(body);
   applyAuthPayload(payload);

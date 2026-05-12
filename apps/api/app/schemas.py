@@ -4,6 +4,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 SDSU_EMAIL = re.compile(r"^[a-zA-Z0-9._%+-]+@sdsu\.edu$", re.I)
 RED_ID_FULL = re.compile(r"^\d{9}$")
+GRAD_YEAR = re.compile(r"^\d{4}$")
 PASSWORD_MIN = 8
 
 
@@ -28,6 +29,8 @@ class RegisterBody(BaseModel):
     first_name: str = Field(..., min_length=1, max_length=100)
     last_name: str = Field(..., min_length=1, max_length=100)
     red_id: str = Field(..., min_length=1)
+    major: str = Field(..., min_length=1, max_length=120)
+    academic_year: str = Field(..., min_length=4, max_length=4)
 
     @field_validator("email", mode="before")
     @classmethod
@@ -56,6 +59,22 @@ class RegisterBody(BaseModel):
         s = v.strip()
         if not s:
             raise ValueError("Name cannot be empty")
+        return s
+
+    @field_validator("major")
+    @classmethod
+    def strip_major(cls, v: str) -> str:
+        s = v.strip()
+        if not s:
+            raise ValueError("Major cannot be empty")
+        return s
+
+    @field_validator("academic_year")
+    @classmethod
+    def graduation_year_format(cls, v: str) -> str:
+        s = v.strip()
+        if not GRAD_YEAR.match(s):
+            raise ValueError("Graduation year must be a 4-digit year")
         return s
 
     @field_validator("red_id")

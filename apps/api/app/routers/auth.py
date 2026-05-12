@@ -48,8 +48,8 @@ def register(body: RegisterBody, db: Session = Depends(get_db)):
         first_name=body.first_name,
         last_name=body.last_name,
         red_id=body.red_id,
-        major="Undeclared",
-        academic_year="—",
+        major=body.major,
+        academic_year=body.academic_year,
     )
     db.add(user)
     db.commit()
