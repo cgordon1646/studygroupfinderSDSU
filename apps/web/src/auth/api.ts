@@ -71,3 +71,44 @@ export async function fetchCurrentUser(accessToken: string): Promise<UserPublicS
   if (!res.ok) return null;
   return res.json() as Promise<UserPublicSnake>;
 }
+
+export interface GroupMessage {
+  id: number;
+  group_id: string;
+  user_email: string;
+  user_name: string;
+  message: string;
+  created_at: string;
+}
+
+export async function fetchGroupMessages(
+  groupId: string,
+  accessToken: string,
+): Promise<GroupMessage[]> {
+  const res = await fetch(apiUrl(`/api/groups/${groupId}/messages`), {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!res.ok) {
+    throw new Error(await extractErrorDetail(res));
+  }
+  return res.json() as Promise<GroupMessage[]>;
+}
+
+export async function postGroupMessage(
+  groupId: string,
+  message: string,
+  accessToken: string,
+): Promise<GroupMessage> {
+  const res = await fetch(apiUrl(`/api/groups/${groupId}/messages`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ message }),
+  });
+  if (!res.ok) {
+    throw new Error(await extractErrorDetail(res));
+  }
+  return res.json() as Promise<GroupMessage>;
+}

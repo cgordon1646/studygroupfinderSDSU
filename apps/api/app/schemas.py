@@ -94,3 +94,16 @@ class LoginBody(BaseModel):
     @classmethod
     def normalize_login_email(cls, v: str) -> str:
         return v.strip().lower()
+
+
+class GroupMessageCreate(BaseModel):
+    message: str = Field(..., min_length=1, max_length=2000)
+
+
+class GroupMessage(BaseModel):
+    id: int
+    group_id: str
+    user_email: str
+    user_name: str
+    message: str
+    created_at: str

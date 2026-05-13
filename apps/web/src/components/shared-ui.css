@@ -284,3 +284,146 @@
   outline-offset: 4px;
   border-radius: 4px;
 }
+
+/* Chat Panel Styles */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 1rem;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.chat-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.chat-empty {
+  text-align: center;
+  color: #999;
+  font-size: 0.9rem;
+  padding: 2rem 1rem;
+  margin: auto;
+}
+
+.chat-message {
+  padding: 0.75rem;
+  background: #fff;
+  border-radius: 6px;
+  border-left: 3px solid #ce1141;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.message-header strong {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.message-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.chat-message p {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: #555;
+  word-wrap: break-word;
+}
+
+.chat-error {
+  padding: 0.75rem 1rem;
+  background: #fee;
+  color: #c00;
+  font-size: 0.85rem;
+  border-top: 1px solid #fcc;
+}
+
+.chat-form {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: #ce1141;
+  box-shadow: 0 0 0 2px rgba(206, 17, 65, 0.1);
+}
+
+.chat-input:disabled {
+  background: #f5f5f5;
+  color: #999;
+}
+
+.chat-send-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #ce1141;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chat-send-btn:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.chat-send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.chat-send-btn:focus-visible {
+  outline: 2px solid #ce1141;
+  outline-offset: 2px;
+}
+
+.chat-panel-empty {
+  padding: 2rem;
+  text-align: center;
+  color: #999;
+  font-size: 0.9rem;
+}

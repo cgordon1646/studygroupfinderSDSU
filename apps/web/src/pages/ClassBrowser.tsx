@@ -6,6 +6,7 @@ import { useAuthSession } from "../hooks/useAuthSession";
 import { useToast } from "../hooks/useToast";
 import { MOCK_SUBJECTS } from "../data/mockCatalog";
 import type { Course, StudyGroup } from "../types/catalog";
+import { AUTH_TOKEN_KEY } from "../auth/session";
 import {
   addJoinedGroup,
   isAlreadyJoined,
@@ -34,6 +35,8 @@ function ClassBrowser() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [dashboardOpen, setDashboardOpen] = useState(false);
   const [joinedGroups, setJoinedGroups] = useState(() => loadJoinedGroups());
+
+  const accessToken = localStorage.getItem(AUTH_TOKEN_KEY);
 
   const openDashboard = () => {
     setJoinedGroups(loadJoinedGroups());
@@ -98,6 +101,7 @@ function ClassBrowser() {
         onClose={() => setDashboardOpen(false)}
         groups={joinedGroups}
         onLeave={handleLeaveGroup}
+        accessToken={accessToken}
       />
 
       <Toast message={message} onDismiss={dismiss} />

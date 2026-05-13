@@ -1,6 +1,7 @@
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { JoinedGroupRecord } from "../auth/joinedGroups";
 import { useEscapeKey } from "../hooks/useEscapeKey";
+import { ChatPanel } from "./ChatPanel";
 import "./shared-ui.css";
 
 interface JoinedGroupsModalProps {
@@ -10,6 +11,7 @@ interface JoinedGroupsModalProps {
   onLeave?: (index: number) => void;
   emptyCtaLabel?: string;
   onEmptyCta?: () => void;
+  accessToken?: string | null;
 }
 
 export function JoinedGroupsModal({
@@ -19,11 +21,21 @@ export function JoinedGroupsModal({
   onLeave,
   emptyCtaLabel,
   onEmptyCta,
+  accessToken,
 }: JoinedGroupsModalProps) {
   const titleId = useId();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const [selectedGroupIndex, setSelectedGroupIndex] = useState<number | null>(
+    null
+  );
 
-  useEscapeKey(onClose, open);
+  useEscapeKey(() => {
+    if (selectedGroupIndex !== null) {
+      setSelectedGroupIndex(null);
+    } else {
+      onClose();
+    }
+  }, open);
 
   useEffect(() => {
     if (!open) return;
@@ -38,6 +50,8 @@ export function JoinedGroupsModal({
   if (!open) return null;
 
   const showLeave = typeof onLeave === "function";
+  const selectedGroup =
+    selectedGroupIndex !== null ? groups[selectedGroupIndex] : null;
 
   return (
     <div
@@ -52,23 +66,42 @@ export function JoinedGroupsModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          maxHeight: selectedGroup ? "90vh" : "auto",
+        }}
       >
         <div className="modal-header">
           <h2 className="modal-title" id={titleId}>
-            My study groups
+            {selectedGroup ? `${selectedGroup.groupName} - Chat` : "My study groups"}
           </h2>
           <button
             ref={closeRef}
             type="button"
             className="modal-close"
-            onClick={onClose}
+            onClick={() => {
+              if (selectedGroupIndex !== null) {
+                setSelectedGroupIndex(null);
+              } else {
+                onClose();
+              }
+            }}
             aria-label="Close"
           >
             ×
           </button>
         </div>
 
-        {groups.length === 0 ? (
+        {selectedGroup ? (
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <ChatPanel
+              groupId={selectedGroup.id}
+              groupName={selectedGroup.groupName}
+              accessToken={accessToken || null}
+            />
+          </div>
+        ) : groups.length === 0 ? (
           <div className="modal-empty">
             <p>You have not joined any study groups yet.</p>
             {emptyCtaLabel && onEmptyCta ? (
@@ -85,10 +118,11 @@ export function JoinedGroupsModal({
             ) : null}
           </div>
         ) : (
-          <div>
+          <div style={{ overflowY: "auto" }}>
             {groups.map((group, index) => (
               <div key={`${group.id}-${index}`} className="joined-group-row">
-                <div>
+                <div style={{ cursor: "pointer", flex: 1 }}
+                     onClick={() => setSelectedGroupIndex(index)}>
                   <h3>{group.groupName}</h3>
                   <p>
                     <strong>{group.courseCode}</strong> — {group.courseName}

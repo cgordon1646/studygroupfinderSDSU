@@ -7,7 +7,7 @@ from sqlalchemy import select
 from .config import ALLOW_ORIGINS
 from .database import Base, SessionLocal, engine
 from .models import User
-from .routers import auth
+from .routers import auth, groups
 from .security import hash_password
 
 
@@ -51,6 +51,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router, prefix="/api")
+app.include_router(groups.router, prefix="/api")
 
 
 @app.get("/api/health")
